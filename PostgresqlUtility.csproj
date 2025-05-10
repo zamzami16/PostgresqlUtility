@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net9.0-windows</TargetFramework>
+		<UseWindowsForms>true</UseWindowsForms>
+		<RootNamespace>PostgresqlUtility</RootNamespace>
+		<AssemblyName>PostgresqlUtility</AssemblyName>
+		<LangVersion>latest</LangVersion>
+
+		<!-- Assembly metadata -->
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<AssemblyTitle>PostgresqlUtility</AssemblyTitle>
+		<Description>A Windows Forms utility for backing up and restoring PostgreSQL databases</Description>
+		<Company>Zams</Company>
+		<Product>PostgresqlUtility</Product>
+		<Authors>zamzami16</Authors>
+		<Copyright>© Zams 2025</Copyright>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<FileVersion>1.0.0.0</FileVersion>
+		<InformationalVersion>1.0.0</InformationalVersion>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<PackageIcon>logo.png</PackageIcon>
+		<ApplicationIcon>logo.ico</ApplicationIcon>
+		<Win32Icon>logo.ico</Win32Icon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AntdUI" Version="1.9.12" />
+		<PackageReference Include="System.Memory" Version="4.6.3" />
+		<PackageReference Include="System.Text.Json" Version="9.0.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties\Resource.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resource.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resource.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resource.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+</Project>
