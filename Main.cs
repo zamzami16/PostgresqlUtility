@@ -4,6 +4,7 @@ using PostgresqlUtility.Domain;
 using PostgresqlUtility.Services;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -104,7 +105,18 @@ public partial class Main : Window
     {
         try
         {
-            var db = await dbService.GetAllDatabaseNameAsync();
+            BtnTestConnection.Enabled = false;
+
+            var config = CreateAppConfigFromSetting();
+            var success = await DbService.TestConnectionAsync(config.PostgresqlBinPath, config.PostgresqlConnectionContext);
+
+            if (!success)
+            {
+                throw new PostgresqlUtilityException("Connection to database failed. Check your conncetion profiles!");
+            }
+
+            var service = new DbService(config.PostgresqlBinPath, config.PostgresqlConnectionContext);
+            var db = await service.GetAllDatabaseNameAsync();
             DdDatabases.Items.Clear();
             foreach (var dbName in db)
             {
@@ -116,6 +128,10 @@ public partial class Main : Window
         catch (Exception err)
         {
             Message.error(this, err.Message);
+        }
+        finally
+        {
+            BtnTestConnection.Enabled = true;
         }
     }
 
@@ -143,11 +159,17 @@ public partial class Main : Window
     {
         try
         {
+            BtnRetrieveDatabaseNames.Enabled = false;
+
             await RetrieveDatabaseAndSetToControl(dbService, DdDatabases);
         }
         catch (Exception err)
         {
             Message.error(this, err.Message);
+        }
+        finally
+        {
+            BtnRetrieveDatabaseNames.Enabled = true;
         }
     }
 
@@ -192,7 +214,7 @@ public partial class Main : Window
 
         if (control.InvokeRequired)
         {
-            control.Invoke(new Action(() => SetDatabaseToControl(control, db)));
+            await control.InvokeAsync(new Action(() => SetDatabaseToControl(control, db)));
         }
         else
         {
@@ -272,5 +294,49 @@ public partial class Main : Window
         {
             Message.error(this, $"Restore Database gagal. {Environment.NewLine}{err.Message}");
         }
+    }
+
+    private void BtnMode_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            if (setcolor)
+            {
+                var color = Style.Db.Primary;
+                Config.IsDark = !Config.IsDark;
+                Dark = Config.IsDark;
+                Style.SetPrimary(color);
+            }
+            else
+            {
+                Config.IsDark = !Config.IsDark;
+                Dark = Config.IsDark;
+            }
+
+            BtnMode.Toggle = Dark;
+            if (Dark)
+            {
+                BackColor = Color.Black;
+                ForeColor = Color.White;
+            }
+            else
+            {
+                BackColor = Color.White;
+                ForeColor = Color.Black;
+            }
+            OnSizeChanged(e);
+        }
+        catch (Exception err)
+        {
+            Message.error(this, err.Message);
+        }
+    }
+
+    bool setcolor = false;
+    private void ColorTheme_ValueChanged(object sender, ColorEventArgs e)
+    {
+        setcolor = true;
+        Style.SetPrimary(e.Value);
+        Refresh();
     }
 }
