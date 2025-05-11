@@ -31,6 +31,8 @@
             AntdUI.Tabs.StyleLine styleLine1 = new AntdUI.Tabs.StyleLine();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             pageHeader = new AntdUI.PageHeader();
+            colorTheme = new AntdUI.ColorPicker();
+            BtnMode = new AntdUI.Button();
             pnlMain = new AntdUI.Panel();
             panel1 = new AntdUI.Panel();
             panel2 = new AntdUI.Panel();
@@ -60,7 +62,7 @@
             SettingPage = new AntdUI.TabPage();
             pnlBaseSettingPage = new AntdUI.Panel();
             BtnSaveSetting = new AntdUI.Button();
-            panel4 = new AntdUI.Panel();
+            PnlConnectionProfiles = new AntdUI.Panel();
             panel5 = new AntdUI.Panel();
             InpDbUser = new AntdUI.Input();
             label6 = new AntdUI.Label();
@@ -85,6 +87,7 @@
             InpPgBinPath = new AntdUI.Input();
             BtnBrowsePostgrePath = new AntdUI.Button();
             lblPgBinPath = new AntdUI.Label();
+            pageHeader.SuspendLayout();
             pnlMain.SuspendLayout();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -99,7 +102,7 @@
             pnlDatabaseToRestore.SuspendLayout();
             SettingPage.SuspendLayout();
             pnlBaseSettingPage.SuspendLayout();
-            panel4.SuspendLayout();
+            PnlConnectionProfiles.SuspendLayout();
             panel5.SuspendLayout();
             panel3.SuspendLayout();
             pnlDbPassword.SuspendLayout();
@@ -111,6 +114,8 @@
             // 
             // pageHeader
             // 
+            pageHeader.Controls.Add(colorTheme);
+            pageHeader.Controls.Add(BtnMode);
             pageHeader.Dock = System.Windows.Forms.DockStyle.Top;
             pageHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
             pageHeader.Icon = Properties.Resource.logo;
@@ -125,6 +130,31 @@
             pageHeader.SubText = "(by mohyusuf)";
             pageHeader.TabIndex = 1;
             pageHeader.Text = "Postgresql Utility";
+            // 
+            // colorTheme
+            // 
+            colorTheme.Dock = System.Windows.Forms.DockStyle.Right;
+            colorTheme.Location = new System.Drawing.Point(691, 0);
+            colorTheme.Name = "colorTheme";
+            colorTheme.Padding = new System.Windows.Forms.Padding(5);
+            colorTheme.Size = new System.Drawing.Size(40, 40);
+            colorTheme.TabIndex = 9;
+            colorTheme.Value = System.Drawing.Color.FromArgb(22, 119, 255);
+            colorTheme.ValueChanged += ColorTheme_ValueChanged;
+            // 
+            // BtnMode
+            // 
+            BtnMode.Dock = System.Windows.Forms.DockStyle.Right;
+            BtnMode.Ghost = true;
+            BtnMode.IconSvg = "SunOutlined";
+            BtnMode.Location = new System.Drawing.Point(731, 0);
+            BtnMode.Name = "BtnMode";
+            BtnMode.Radius = 0;
+            BtnMode.Size = new System.Drawing.Size(50, 40);
+            BtnMode.TabIndex = 7;
+            BtnMode.ToggleIconSvg = "MoonOutlined";
+            BtnMode.WaveSize = 0;
+            BtnMode.Click += BtnMode_Click;
             // 
             // pnlMain
             // 
@@ -179,7 +209,7 @@
             // BackupPage
             // 
             BackupPage.Controls.Add(pnlBaseBackupPage);
-            BackupPage.Location = new System.Drawing.Point(4, 29);
+            BackupPage.Location = new System.Drawing.Point(-813, -445);
             BackupPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             BackupPage.Name = "BackupPage";
             BackupPage.Size = new System.Drawing.Size(813, 445);
@@ -224,8 +254,6 @@
             // 
             // BtnbackupSaveTo
             // 
-            BtnbackupSaveTo.BackActive = System.Drawing.Color.FromArgb(3, 169, 244);
-            BtnbackupSaveTo.BackColor = System.Drawing.Color.FromArgb(3, 169, 244);
             BtnbackupSaveTo.Dock = System.Windows.Forms.DockStyle.Right;
             BtnbackupSaveTo.Location = new System.Drawing.Point(703, 1);
             BtnbackupSaveTo.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -278,8 +306,6 @@
             // 
             // BtnRetrieveDatabaseNames
             // 
-            BtnRetrieveDatabaseNames.BackActive = System.Drawing.Color.FromArgb(3, 169, 244);
-            BtnRetrieveDatabaseNames.BackColor = System.Drawing.Color.FromArgb(3, 169, 244);
             BtnRetrieveDatabaseNames.Dock = System.Windows.Forms.DockStyle.Right;
             BtnRetrieveDatabaseNames.Location = new System.Drawing.Point(703, 1);
             BtnRetrieveDatabaseNames.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
@@ -316,10 +342,10 @@
             // RestorePage
             // 
             RestorePage.Controls.Add(PnlRestorePage);
-            RestorePage.Location = new System.Drawing.Point(-817, -450);
+            RestorePage.Location = new System.Drawing.Point(4, 29);
             RestorePage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             RestorePage.Name = "RestorePage";
-            RestorePage.Size = new System.Drawing.Size(817, 450);
+            RestorePage.Size = new System.Drawing.Size(813, 445);
             RestorePage.TabIndex = 1;
             RestorePage.Text = "RESTORE";
             // 
@@ -332,7 +358,7 @@
             PnlRestorePage.Location = new System.Drawing.Point(0, 0);
             PnlRestorePage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             PnlRestorePage.Name = "PnlRestorePage";
-            PnlRestorePage.Size = new System.Drawing.Size(817, 450);
+            PnlRestorePage.Size = new System.Drawing.Size(813, 445);
             PnlRestorePage.TabIndex = 0;
             PnlRestorePage.Text = "panel6";
             // 
@@ -357,7 +383,7 @@
             PnlBackupFileToRestore.Location = new System.Drawing.Point(10, 22);
             PnlBackupFileToRestore.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             PnlBackupFileToRestore.Name = "PnlBackupFileToRestore";
-            PnlBackupFileToRestore.Size = new System.Drawing.Size(796, 42);
+            PnlBackupFileToRestore.Size = new System.Drawing.Size(792, 42);
             PnlBackupFileToRestore.TabIndex = 8;
             PnlBackupFileToRestore.Text = "panel1";
             // 
@@ -367,15 +393,13 @@
             InptBackupFileToRestore.Location = new System.Drawing.Point(136, 1);
             InptBackupFileToRestore.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             InptBackupFileToRestore.Name = "InptBackupFileToRestore";
-            InptBackupFileToRestore.Size = new System.Drawing.Size(571, 40);
+            InptBackupFileToRestore.Size = new System.Drawing.Size(567, 40);
             InptBackupFileToRestore.TabIndex = 3;
             // 
             // BtnBrowseBackupFileToRestore
             // 
-            BtnBrowseBackupFileToRestore.BackActive = System.Drawing.Color.FromArgb(3, 169, 244);
-            BtnBrowseBackupFileToRestore.BackColor = System.Drawing.Color.FromArgb(3, 169, 244);
             BtnBrowseBackupFileToRestore.Dock = System.Windows.Forms.DockStyle.Right;
-            BtnBrowseBackupFileToRestore.Location = new System.Drawing.Point(707, 1);
+            BtnBrowseBackupFileToRestore.Location = new System.Drawing.Point(703, 1);
             BtnBrowseBackupFileToRestore.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             BtnBrowseBackupFileToRestore.Name = "BtnBrowseBackupFileToRestore";
             BtnBrowseBackupFileToRestore.Size = new System.Drawing.Size(88, 40);
@@ -403,10 +427,10 @@
             pnlDatabaseToRestore.Controls.Add(InpDatabaseTorestore);
             pnlDatabaseToRestore.Controls.Add(BtnRetrieveDatabaseToRestore);
             pnlDatabaseToRestore.Controls.Add(LblDatabaseToRestore);
-            pnlDatabaseToRestore.Location = new System.Drawing.Point(12, 70);
+            pnlDatabaseToRestore.Location = new System.Drawing.Point(10, 70);
             pnlDatabaseToRestore.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             pnlDatabaseToRestore.Name = "pnlDatabaseToRestore";
-            pnlDatabaseToRestore.Size = new System.Drawing.Size(796, 42);
+            pnlDatabaseToRestore.Size = new System.Drawing.Size(792, 42);
             pnlDatabaseToRestore.TabIndex = 7;
             pnlDatabaseToRestore.Text = "panel1";
             // 
@@ -421,15 +445,13 @@
             InpDatabaseTorestore.MaxCount = 8;
             InpDatabaseTorestore.Name = "InpDatabaseTorestore";
             InpDatabaseTorestore.PlaceholderText = "No Entry Selected";
-            InpDatabaseTorestore.Size = new System.Drawing.Size(571, 40);
+            InpDatabaseTorestore.Size = new System.Drawing.Size(567, 40);
             InpDatabaseTorestore.TabIndex = 1;
             // 
             // BtnRetrieveDatabaseToRestore
             // 
-            BtnRetrieveDatabaseToRestore.BackActive = System.Drawing.Color.FromArgb(3, 169, 244);
-            BtnRetrieveDatabaseToRestore.BackColor = System.Drawing.Color.FromArgb(3, 169, 244);
             BtnRetrieveDatabaseToRestore.Dock = System.Windows.Forms.DockStyle.Right;
-            BtnRetrieveDatabaseToRestore.Location = new System.Drawing.Point(707, 1);
+            BtnRetrieveDatabaseToRestore.Location = new System.Drawing.Point(703, 1);
             BtnRetrieveDatabaseToRestore.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             BtnRetrieveDatabaseToRestore.Name = "BtnRetrieveDatabaseToRestore";
             BtnRetrieveDatabaseToRestore.Size = new System.Drawing.Size(88, 40);
@@ -453,30 +475,30 @@
             // SettingPage
             // 
             SettingPage.Controls.Add(pnlBaseSettingPage);
-            SettingPage.Location = new System.Drawing.Point(-817, -456);
+            SettingPage.Location = new System.Drawing.Point(-813, -445);
             SettingPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             SettingPage.Name = "SettingPage";
-            SettingPage.Size = new System.Drawing.Size(817, 456);
+            SettingPage.Size = new System.Drawing.Size(813, 445);
             SettingPage.TabIndex = 2;
             SettingPage.Text = "SETTING";
             // 
             // pnlBaseSettingPage
             // 
             pnlBaseSettingPage.Controls.Add(BtnSaveSetting);
-            pnlBaseSettingPage.Controls.Add(panel4);
+            pnlBaseSettingPage.Controls.Add(PnlConnectionProfiles);
             pnlBaseSettingPage.Controls.Add(pnlPgBinPath);
             pnlBaseSettingPage.Dock = System.Windows.Forms.DockStyle.Fill;
             pnlBaseSettingPage.Location = new System.Drawing.Point(0, 0);
             pnlBaseSettingPage.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             pnlBaseSettingPage.Name = "pnlBaseSettingPage";
-            pnlBaseSettingPage.Size = new System.Drawing.Size(817, 456);
+            pnlBaseSettingPage.Size = new System.Drawing.Size(813, 445);
             pnlBaseSettingPage.TabIndex = 2;
             pnlBaseSettingPage.Text = "panel3";
             // 
             // BtnSaveSetting
             // 
             BtnSaveSetting.Anchor = System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right;
-            BtnSaveSetting.Location = new System.Drawing.Point(681, 399);
+            BtnSaveSetting.Location = new System.Drawing.Point(677, 388);
             BtnSaveSetting.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             BtnSaveSetting.Name = "BtnSaveSetting";
             BtnSaveSetting.Size = new System.Drawing.Size(125, 46);
@@ -485,37 +507,36 @@
             BtnSaveSetting.Type = AntdUI.TTypeMini.Primary;
             BtnSaveSetting.Click += BtnSaveSetting_Click;
             // 
-            // panel4
+            // PnlConnectionProfiles
             // 
-            panel4.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            panel4.Back = System.Drawing.Color.FromArgb(255, 255, 255);
-            panel4.BorderColor = System.Drawing.Color.FromArgb(22, 119, 255);
-            panel4.BorderWidth = 0.5F;
-            panel4.Controls.Add(panel5);
-            panel4.Controls.Add(panel3);
-            panel4.Controls.Add(BtnTestConnection);
-            panel4.Controls.Add(pnlDbPassword);
-            panel4.Controls.Add(pnlHost);
-            panel4.Controls.Add(pnlDbPort);
-            panel4.Controls.Add(PnlDbname);
-            panel4.Controls.Add(label2);
-            panel4.Location = new System.Drawing.Point(12, 80);
-            panel4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            panel4.Name = "panel4";
-            panel4.Size = new System.Drawing.Size(794, 306);
-            panel4.TabIndex = 2;
-            panel4.Text = "panel4";
+            PnlConnectionProfiles.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
+            PnlConnectionProfiles.BorderColor = System.Drawing.SystemColors.ActiveBorder;
+            PnlConnectionProfiles.BorderWidth = 0.5F;
+            PnlConnectionProfiles.Controls.Add(panel5);
+            PnlConnectionProfiles.Controls.Add(panel3);
+            PnlConnectionProfiles.Controls.Add(BtnTestConnection);
+            PnlConnectionProfiles.Controls.Add(pnlDbPassword);
+            PnlConnectionProfiles.Controls.Add(pnlHost);
+            PnlConnectionProfiles.Controls.Add(pnlDbPort);
+            PnlConnectionProfiles.Controls.Add(PnlDbname);
+            PnlConnectionProfiles.Controls.Add(label2);
+            PnlConnectionProfiles.Location = new System.Drawing.Point(12, 80);
+            PnlConnectionProfiles.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            PnlConnectionProfiles.Name = "PnlConnectionProfiles";
+            PnlConnectionProfiles.Size = new System.Drawing.Size(790, 302);
+            PnlConnectionProfiles.TabIndex = 2;
+            PnlConnectionProfiles.Text = "panel4";
             // 
             // panel5
             // 
             panel5.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            panel5.BorderWidth = 1F;
+            panel5.BorderWidth = 0.5F;
             panel5.Controls.Add(InpDbUser);
             panel5.Controls.Add(label6);
             panel5.Location = new System.Drawing.Point(13, 143);
             panel5.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             panel5.Name = "panel5";
-            panel5.Size = new System.Drawing.Size(769, 42);
+            panel5.Size = new System.Drawing.Size(765, 42);
             panel5.TabIndex = 3;
             panel5.Text = "panel1";
             // 
@@ -525,7 +546,7 @@
             InpDbUser.Location = new System.Drawing.Point(136, 1);
             InpDbUser.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             InpDbUser.Name = "InpDbUser";
-            InpDbUser.Size = new System.Drawing.Size(632, 40);
+            InpDbUser.Size = new System.Drawing.Size(628, 40);
             InpDbUser.TabIndex = 2;
             // 
             // label6
@@ -543,13 +564,13 @@
             // panel3
             // 
             panel3.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            panel3.BorderWidth = 1F;
+            panel3.BorderWidth = 0.5F;
             panel3.Controls.Add(DdDatabases);
             panel3.Controls.Add(label5);
             panel3.Location = new System.Drawing.Point(13, 238);
             panel3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             panel3.Name = "panel3";
-            panel3.Size = new System.Drawing.Size(769, 42);
+            panel3.Size = new System.Drawing.Size(765, 42);
             panel3.TabIndex = 4;
             panel3.Text = "panel1";
             // 
@@ -564,7 +585,7 @@
             DdDatabases.MaxCount = 8;
             DdDatabases.Name = "DdDatabases";
             DdDatabases.PlaceholderText = "Test Connection to retrieve databases names";
-            DdDatabases.Size = new System.Drawing.Size(632, 40);
+            DdDatabases.Size = new System.Drawing.Size(628, 40);
             DdDatabases.TabIndex = 1;
             // 
             // label5
@@ -582,9 +603,7 @@
             // BtnTestConnection
             // 
             BtnTestConnection.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right;
-            BtnTestConnection.BackActive = System.Drawing.Color.FromArgb(3, 169, 244);
-            BtnTestConnection.BackColor = System.Drawing.Color.FromArgb(3, 169, 244);
-            BtnTestConnection.Location = new System.Drawing.Point(604, 192);
+            BtnTestConnection.Location = new System.Drawing.Point(600, 192);
             BtnTestConnection.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             BtnTestConnection.Name = "BtnTestConnection";
             BtnTestConnection.Size = new System.Drawing.Size(176, 40);
@@ -596,13 +615,13 @@
             // pnlDbPassword
             // 
             pnlDbPassword.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            pnlDbPassword.BorderWidth = 1F;
+            pnlDbPassword.BorderWidth = 0.5F;
             pnlDbPassword.Controls.Add(InpDbPassword);
             pnlDbPassword.Controls.Add(label4);
             pnlDbPassword.Location = new System.Drawing.Point(12, 190);
             pnlDbPassword.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             pnlDbPassword.Name = "pnlDbPassword";
-            pnlDbPassword.Size = new System.Drawing.Size(587, 42);
+            pnlDbPassword.Size = new System.Drawing.Size(583, 42);
             pnlDbPassword.TabIndex = 3;
             pnlDbPassword.Text = "panel1";
             // 
@@ -613,7 +632,7 @@
             InpDbPassword.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             InpDbPassword.Name = "InpDbPassword";
             InpDbPassword.PasswordChar = '*';
-            InpDbPassword.Size = new System.Drawing.Size(450, 40);
+            InpDbPassword.Size = new System.Drawing.Size(446, 40);
             InpDbPassword.TabIndex = 2;
             InpDbPassword.UseSystemPasswordChar = true;
             // 
@@ -632,13 +651,13 @@
             // pnlHost
             // 
             pnlHost.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            pnlHost.BorderWidth = 1F;
+            pnlHost.BorderWidth = 0.5F;
             pnlHost.Controls.Add(InpDbHost);
             pnlHost.Controls.Add(label3);
             pnlHost.Location = new System.Drawing.Point(12, 47);
             pnlHost.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             pnlHost.Name = "pnlHost";
-            pnlHost.Size = new System.Drawing.Size(587, 42);
+            pnlHost.Size = new System.Drawing.Size(583, 42);
             pnlHost.TabIndex = 3;
             pnlHost.Text = "panel1";
             // 
@@ -648,7 +667,7 @@
             InpDbHost.Location = new System.Drawing.Point(136, 1);
             InpDbHost.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             InpDbHost.Name = "InpDbHost";
-            InpDbHost.Size = new System.Drawing.Size(450, 40);
+            InpDbHost.Size = new System.Drawing.Size(446, 40);
             InpDbHost.TabIndex = 2;
             InpDbHost.Text = "localhost";
             // 
@@ -670,7 +689,7 @@
             pnlDbPort.BorderWidth = 1F;
             pnlDbPort.Controls.Add(InpDbPort);
             pnlDbPort.Controls.Add(label1);
-            pnlDbPort.Location = new System.Drawing.Point(606, 48);
+            pnlDbPort.Location = new System.Drawing.Point(602, 48);
             pnlDbPort.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             pnlDbPort.Name = "pnlDbPort";
             pnlDbPort.Size = new System.Drawing.Size(176, 42);
@@ -703,13 +722,13 @@
             // PnlDbname
             // 
             PnlDbname.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            PnlDbname.BorderWidth = 1F;
+            PnlDbname.BorderWidth = 0.5F;
             PnlDbname.Controls.Add(InpDbName);
             PnlDbname.Controls.Add(lblDbName);
             PnlDbname.Location = new System.Drawing.Point(12, 96);
             PnlDbname.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             PnlDbname.Name = "PnlDbname";
-            PnlDbname.Size = new System.Drawing.Size(769, 42);
+            PnlDbname.Size = new System.Drawing.Size(765, 42);
             PnlDbname.TabIndex = 2;
             PnlDbname.Text = "panel1";
             // 
@@ -719,7 +738,7 @@
             InpDbName.Location = new System.Drawing.Point(136, 1);
             InpDbName.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             InpDbName.Name = "InpDbName";
-            InpDbName.Size = new System.Drawing.Size(632, 40);
+            InpDbName.Size = new System.Drawing.Size(628, 40);
             InpDbName.TabIndex = 2;
             // 
             // lblDbName
@@ -738,7 +757,7 @@
             // 
             label2.BackColor = System.Drawing.Color.Transparent;
             label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, 0);
-            label2.Location = new System.Drawing.Point(8, 9);
+            label2.Location = new System.Drawing.Point(12, 14);
             label2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             label2.Name = "label2";
             label2.Size = new System.Drawing.Size(244, 27);
@@ -749,14 +768,14 @@
             // pnlPgBinPath
             // 
             pnlPgBinPath.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            pnlPgBinPath.BorderWidth = 1F;
+            pnlPgBinPath.BorderWidth = 0.5F;
             pnlPgBinPath.Controls.Add(InpPgBinPath);
             pnlPgBinPath.Controls.Add(BtnBrowsePostgrePath);
             pnlPgBinPath.Controls.Add(lblPgBinPath);
             pnlPgBinPath.Location = new System.Drawing.Point(10, 17);
             pnlPgBinPath.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             pnlPgBinPath.Name = "pnlPgBinPath";
-            pnlPgBinPath.Size = new System.Drawing.Size(796, 42);
+            pnlPgBinPath.Size = new System.Drawing.Size(792, 42);
             pnlPgBinPath.TabIndex = 1;
             pnlPgBinPath.Text = "panel1";
             // 
@@ -766,15 +785,13 @@
             InpPgBinPath.Location = new System.Drawing.Point(197, 1);
             InpPgBinPath.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             InpPgBinPath.Name = "InpPgBinPath";
-            InpPgBinPath.Size = new System.Drawing.Size(510, 40);
+            InpPgBinPath.Size = new System.Drawing.Size(506, 40);
             InpPgBinPath.TabIndex = 2;
             // 
             // BtnBrowsePostgrePath
             // 
-            BtnBrowsePostgrePath.BackActive = System.Drawing.Color.FromArgb(3, 169, 244);
-            BtnBrowsePostgrePath.BackColor = System.Drawing.Color.FromArgb(3, 169, 244);
             BtnBrowsePostgrePath.Dock = System.Windows.Forms.DockStyle.Right;
-            BtnBrowsePostgrePath.Location = new System.Drawing.Point(707, 1);
+            BtnBrowsePostgrePath.Location = new System.Drawing.Point(703, 1);
             BtnBrowsePostgrePath.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             BtnBrowsePostgrePath.Name = "BtnBrowsePostgrePath";
             BtnBrowsePostgrePath.Size = new System.Drawing.Size(88, 40);
@@ -810,6 +827,7 @@
             StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             Text = "PostgresqlUtility";
             Shown += Main_Shown;
+            pageHeader.ResumeLayout(false);
             pnlMain.ResumeLayout(false);
             panel1.ResumeLayout(false);
             panel2.ResumeLayout(false);
@@ -824,7 +842,7 @@
             pnlDatabaseToRestore.ResumeLayout(false);
             SettingPage.ResumeLayout(false);
             pnlBaseSettingPage.ResumeLayout(false);
-            panel4.ResumeLayout(false);
+            PnlConnectionProfiles.ResumeLayout(false);
             panel5.ResumeLayout(false);
             panel3.ResumeLayout(false);
             pnlDbPassword.ResumeLayout(false);
@@ -851,7 +869,7 @@
         private AntdUI.TabPage SettingPage;
         private AntdUI.Panel pnlBaseBackupPage;
         private AntdUI.Panel pnlBaseSettingPage;
-        private AntdUI.Panel panel4;
+        private AntdUI.Panel PnlConnectionProfiles;
         private AntdUI.Label label2;
         private AntdUI.Button BtnSaveSetting;
         private AntdUI.Button BtnBackup;
@@ -892,6 +910,8 @@
         private AntdUI.Select InpDatabaseTorestore;
         private AntdUI.Button BtnRetrieveDatabaseToRestore;
         private AntdUI.Label LblDatabaseToRestore;
+        private AntdUI.Button BtnMode;
+        private AntdUI.ColorPicker colorTheme;
     }
 }
 
