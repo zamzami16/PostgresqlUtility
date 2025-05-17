@@ -9,19 +9,42 @@ namespace PostgresqlUtility.Services;
 
 public sealed class PsqlQuery
 {
-    private readonly PostgresqlConnectionContext context;
+    public sealed class PsqlOptions
+    {
+        public bool ShowColumnName { get; set; } = true;
 
-    public PsqlQuery(PostgresqlConnectionContext context)
+        public static PsqlOptions Default => new();
+    }
+
+    private readonly PostgresqlConnectionContext context;
+    private readonly PsqlOptions options;
+
+    public PsqlQuery(PostgresqlConnectionContext context) : this(context, PsqlOptions.Default)
+    {
+
+    }
+
+    public PsqlQuery(PostgresqlConnectionContext context, PsqlOptions options)
     {
         this.context = context;
+        this.options = options;
     }
 
     public async Task<string> ExecuteQueryAsync(string pgBinPath, string query, CancellationToken token = default)
     {
+        var inlineArgs = PsqlArgumentsBuilder.Create()
+            .WithOptions(options) // tuples-only
+            .WithHost(context.Host)
+            .WithPort(context.Port)
+            .WithUser(context.DatabaseUser)
+            .WithDatabase(context.DatabaseName)
+            .WithCommand(query)
+            .Build();
+
         var psi = new ProcessStartInfo
         {
             FileName = Path.Combine(pgBinPath, "psql.exe"),
-            Arguments = $"-h {context.Host} -p {context.Port} -U {context.DatabaseUser} -d {context.DatabaseName} -t -c \"{query}\"",
+            Arguments = inlineArgs,
         };
         psi.EnvironmentVariables["PGPASSWORD"] = context.DatabasePassword;
 
@@ -36,10 +59,19 @@ public sealed class PsqlQuery
 
     public async Task<string> ExecuteSqlFileAsync(string pgBinPath, string file, CancellationToken token)
     {
+        var fileArgs = PsqlArgumentsBuilder.Create()
+            .WithOptions(options)
+            .WithHost(context.Host)
+            .WithPort(context.Port)
+            .WithUser(context.DatabaseUser)
+            .WithDatabase(context.DatabaseName)
+            .WithFile(file)
+            .Build();
+
         var psi = new ProcessStartInfo
         {
             FileName = Path.Combine(pgBinPath, "psql.exe"),
-            Arguments = $"-h {context.Host} -p {context.Port} -U {context.DatabaseUser} -d {context.DatabaseName} -t -f \"{file}\"",
+            Arguments = fileArgs,
         };
         psi.EnvironmentVariables["PGPASSWORD"] = context.DatabasePassword;
 

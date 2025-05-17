@@ -15,12 +15,12 @@ public sealed class BackupDatabase
         this.context = context;
     }
 
-    public async Task BackupAsync(string pgDumpPath, string outputPath, CancellationToken token = default)
+    public async Task BackupAsync(string pgDumpPath, string dbName, string outputPath, CancellationToken token = default)
     {
         var psi = new ProcessStartInfo
         {
             FileName = Path.Combine(pgDumpPath, "pg_dump.exe"),
-            Arguments = $"-h {context.Host} -p {context.Port} -U {context.DatabaseUser} -Fc -b -f \"{outputPath}\" \"{context.DatabaseName}\"",
+            Arguments = $"-h {context.Host} -p {context.Port} -U {context.DatabaseUser} -Fc -b -f \"{outputPath}\" \"{dbName}\"",
         };
         psi.EnvironmentVariables["PGPASSWORD"] = context.DatabasePassword;
 

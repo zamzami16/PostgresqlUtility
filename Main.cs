@@ -44,6 +44,8 @@ public partial class Main : Window
 
     private async void BtnBackup_Click(object sender, EventArgs e)
     {
+        BtnBackup.Enabled = false;
+
         var context = AppConfig.PostgresqlConnectionContext;
         var pgDumpPath = InpPgBinPath.Text;
 
@@ -54,15 +56,20 @@ public partial class Main : Window
 
         var backup = new BackupDatabase(context);
         var outputPath = InpBackupSaveTo.Text;
+        var dbName = SelectDbNameToBackup.Text;
 
         try
         {
-            await backup.BackupAsync(pgDumpPath, outputPath);
+            await backup.BackupAsync(pgDumpPath, dbName, outputPath);
             Message.success(this, $"Backup completed successfully. Output: {outputPath}");
         }
         catch (Exception)
         {
             Message.error(this, $"Backup failed");
+        }
+        finally
+        {
+            BtnBackup.Enabled = true;
         }
     }
 
@@ -166,7 +173,7 @@ public partial class Main : Window
         {
             BtnRetrieveDatabaseNames.Enabled = false;
 
-            await RetrieveDatabaseAndSetToControl(dbService, DdDatabases);
+            await RetrieveDatabaseAndSetToControl(dbService, SelectDbNameToBackup);
         }
         catch (Exception err)
         {
@@ -265,6 +272,8 @@ public partial class Main : Window
     {
         try
         {
+            BtnRestore.Enabled = false;
+
             using var cts = new CancellationTokenSource();
             var dbName = InpDatabaseTorestore.Text;
 
@@ -294,10 +303,16 @@ public partial class Main : Window
 
             var restore = new RestoreDatabase(appConfig.PostgresqlConnectionContext);
             await restore.RestoreAsync(InpPgBinPath.Text, InptBackupFileToRestore.Text, dbName, cts.Token);
+
+            Message.info(this, $"Database \"{dbName}\" successfully restored.");
         }
         catch (Exception err)
         {
             Message.error(this, $"Restore Database gagal. {Environment.NewLine}{err.Message}");
+        }
+        finally
+        {
+            BtnRestore.Enabled = true;
         }
     }
 
