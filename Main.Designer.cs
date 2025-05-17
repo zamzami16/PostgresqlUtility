@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            AntdUI.Tabs.StyleLine styleLine2 = new AntdUI.Tabs.StyleLine();
+            AntdUI.Tabs.StyleLine styleLine1 = new AntdUI.Tabs.StyleLine();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             pageHeader = new AntdUI.PageHeader();
             colorTheme = new AntdUI.ColorPicker();
@@ -48,6 +48,8 @@
             BtnRetrieveDatabaseNames = new AntdUI.Button();
             lblBackupdatabaseNames = new AntdUI.Label();
             BtnBackup = new AntdUI.Button();
+            SqlPage = new AntdUI.TabPage();
+            PanelSqlPageBase = new AntdUI.Panel();
             RestorePage = new AntdUI.TabPage();
             PnlRestorePage = new AntdUI.Panel();
             BtnRestore = new AntdUI.Button();
@@ -87,8 +89,6 @@
             InpPgBinPath = new AntdUI.Input();
             BtnBrowsePostgrePath = new AntdUI.Button();
             lblPgBinPath = new AntdUI.Label();
-            SqlPage = new AntdUI.TabPage();
-            PanelSqlPageBase = new AntdUI.Panel();
             pageHeader.SuspendLayout();
             pnlMain.SuspendLayout();
             panel1.SuspendLayout();
@@ -98,6 +98,7 @@
             pnlBaseBackupPage.SuspendLayout();
             PnlBackupSaveTo.SuspendLayout();
             PnlBackupListDatabase.SuspendLayout();
+            SqlPage.SuspendLayout();
             RestorePage.SuspendLayout();
             PnlRestorePage.SuspendLayout();
             PnlBackupFileToRestore.SuspendLayout();
@@ -112,7 +113,6 @@
             pnlDbPort.SuspendLayout();
             PnlDbname.SuspendLayout();
             pnlPgBinPath.SuspendLayout();
-            SqlPage.SuspendLayout();
             SuspendLayout();
             // 
             // pageHeader
@@ -207,7 +207,7 @@
             tabs.Pages.Add(RestorePage);
             tabs.Pages.Add(SettingPage);
             tabs.Size = new System.Drawing.Size(821, 477);
-            tabs.Style = styleLine2;
+            tabs.Style = styleLine1;
             tabs.TabIndex = 0;
             tabs.Text = "tabs1";
             // 
@@ -343,6 +343,24 @@
             BtnBackup.Text = "BACKUP";
             BtnBackup.Type = AntdUI.TTypeMini.Primary;
             BtnBackup.Click += BtnBackup_Click;
+            // 
+            // SqlPage
+            // 
+            SqlPage.Controls.Add(PanelSqlPageBase);
+            SqlPage.Location = new System.Drawing.Point(4, 29);
+            SqlPage.Name = "SqlPage";
+            SqlPage.Size = new System.Drawing.Size(813, 445);
+            SqlPage.TabIndex = 0;
+            SqlPage.Text = "SQL";
+            // 
+            // PanelSqlPageBase
+            // 
+            PanelSqlPageBase.Dock = System.Windows.Forms.DockStyle.Fill;
+            PanelSqlPageBase.Location = new System.Drawing.Point(0, 0);
+            PanelSqlPageBase.Name = "PanelSqlPageBase";
+            PanelSqlPageBase.Size = new System.Drawing.Size(813, 445);
+            PanelSqlPageBase.TabIndex = 0;
+            PanelSqlPageBase.Text = "panel4";
             // 
             // RestorePage
             // 
@@ -817,24 +835,6 @@
             lblPgBinPath.Text = "POSTGRESQL BIN FOLDER";
             lblPgBinPath.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // SqlPage
-            // 
-            SqlPage.Controls.Add(PanelSqlPageBase);
-            SqlPage.Location = new System.Drawing.Point(4, 29);
-            SqlPage.Name = "SqlPage";
-            SqlPage.Size = new System.Drawing.Size(813, 445);
-            SqlPage.TabIndex = 0;
-            SqlPage.Text = "SQL";
-            // 
-            // PanelSqlPageBase
-            // 
-            PanelSqlPageBase.Dock = System.Windows.Forms.DockStyle.Fill;
-            PanelSqlPageBase.Location = new System.Drawing.Point(0, 0);
-            PanelSqlPageBase.Name = "PanelSqlPageBase";
-            PanelSqlPageBase.Size = new System.Drawing.Size(813, 445);
-            PanelSqlPageBase.TabIndex = 0;
-            PanelSqlPageBase.Text = "panel4";
-            // 
             // Main
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -859,6 +859,7 @@
             pnlBaseBackupPage.ResumeLayout(false);
             PnlBackupSaveTo.ResumeLayout(false);
             PnlBackupListDatabase.ResumeLayout(false);
+            SqlPage.ResumeLayout(false);
             RestorePage.ResumeLayout(false);
             PnlRestorePage.ResumeLayout(false);
             PnlBackupFileToRestore.ResumeLayout(false);
@@ -873,7 +874,6 @@
             pnlDbPort.ResumeLayout(false);
             PnlDbname.ResumeLayout(false);
             pnlPgBinPath.ResumeLayout(false);
-            SqlPage.ResumeLayout(false);
             ResumeLayout(false);
 
         }

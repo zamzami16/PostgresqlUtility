@@ -10,7 +10,7 @@ public sealed class DbService(string binPath, PostgresqlConnectionContext contex
 {
     public async Task<IEnumerable<string>> GetAllDatabaseNameAsync()
     {
-        var psqlQuery = new PsqlQuery(context);
+        var psqlQuery = new PsqlQuery(context, new PsqlQuery.PsqlOptions { ShowColumnName = false });
         var query = PsqlQuery.QueryGetAllDatabaseName;
 
         var result = await psqlQuery.ExecuteQueryAsync(binPath, query);

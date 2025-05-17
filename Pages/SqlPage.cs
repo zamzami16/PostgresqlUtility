@@ -88,7 +88,7 @@ public partial class SqlPage : UserControl
                 Port = appConfig.PostgresqlConnectionContext.Port,
             };
 
-            var sqlQuery = new PsqlQuery(context);
+            var sqlQuery = new PsqlQuery(context, PsqlQuery.PsqlOptions.Default);
 
             if (sqlStringTooLong
                 && File.Exists(InpSqlFile.Text))
@@ -104,8 +104,8 @@ public partial class SqlPage : UserControl
                     ? input1.Text
                     : input1.SelectedText);
 
-            await sqlQuery.ExecuteSqlFileAsync(appConfig.PostgresqlBinPath, SQL_TEMP_FILE_NAME, cts.Token);
-            Message.info(ParentForm, "Query successfully executed");
+            var result = await sqlQuery.ExecuteSqlFileAsync(appConfig.PostgresqlBinPath, SQL_TEMP_FILE_NAME, cts.Token);
+            Message.info(ParentForm, $"Query successfully executed{Environment.NewLine}{result}");
         }
         catch (Exception err)
         {
