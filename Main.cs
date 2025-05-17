@@ -1,6 +1,7 @@
 ﻿using AntdUI;
 using PostgresqlUtility.Connection;
 using PostgresqlUtility.Domain;
+using PostgresqlUtility.Pages;
 using PostgresqlUtility.Services;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,10 @@ public partial class Main : Window
     {
         InitializeComponent();
         dbService = new DbService(appConfig.PostgresqlBinPath, appConfig.PostgresqlConnectionContext);
+
+        var sqlPage = new SqlPage(this, appConfig);
+        PanelSqlPageBase.Controls.Add(sqlPage);
+        sqlPage.Dock = DockStyle.Fill;
     }
 
     public AppConfig AppConfig => appConfig;
@@ -147,7 +152,7 @@ public partial class Main : Window
             InpDbPassword.Text = AppConfig.PostgresqlConnectionContext.DatabasePassword;
             DdDatabases.Items.Clear();
 
-            tabs.SelectedTab = BackupPage;
+            tabs.SelectedTab = SqlPage;
         }
         catch (Exception err)
         {

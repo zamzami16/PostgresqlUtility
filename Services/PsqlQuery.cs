@@ -34,5 +34,23 @@ public sealed class PsqlQuery
         return stdOut;
     }
 
+    public async Task<string> ExecuteSqlFileAsync(string pgBinPath, string file, CancellationToken token)
+    {
+        var psi = new ProcessStartInfo
+        {
+            FileName = Path.Combine(pgBinPath, "psql.exe"),
+            Arguments = $"-h {context.Host} -p {context.Port} -U {context.DatabaseUser} -d {context.DatabaseName} -t -f \"{file}\"",
+        };
+        psi.EnvironmentVariables["PGPASSWORD"] = context.DatabasePassword;
+
+        var shell = new ShellExecutor(psi);
+        var (stdOut, stdErr) = await shell.RunAsync(token);
+
+        if (!string.IsNullOrEmpty(stdErr))
+            throw new PostgresqlUtilityException($"Error executing query: {stdErr}");
+
+        return stdOut;
+    }
+
     public const string QueryGetAllDatabaseName = "SELECT datname FROM pg_database WHERE datistemplate = false;";
 }
