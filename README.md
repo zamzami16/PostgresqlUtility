@@ -4,20 +4,28 @@ A simple Windows Forms application for backing up and restoring PostgreSQL datab
 
 ## Features
 
-- **Setting** Manage connection settings (host, port, database, user, password) via a friendly GUI.  
+- **Sql** Execute SQL commands directly against the database.
 - **Backup** your PostgreSQL database to a `.dump` file.  
 - **Restore** a database from an existing `.dump` file.  
+- **Setting** Manage connection settings (host, port, database, user, password) via a friendly GUI.  
 - Configure paths to PostgreSQL CLI tools (`pg_dump`, `pgsql`, `pg_restore`).  
 - Built on .NET 9.0-windows with an AntdUI-powered WinForms interface.
+- Dark theme support.
 
-### Settings
-![Setting](settings.png)
+## Sql
+![Sql](sql.png)
 
 ### Backup
 ![Backup](backup.png)
 
 ### Restore
 ![Restore](restore.png)
+
+### Settings
+![Setting](settings.png)
+
+### Dark Theme
+![Dark Theme](dark-theme.png)
 
 ## Prerequisites
 
